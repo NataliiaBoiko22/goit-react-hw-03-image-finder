@@ -19,9 +19,10 @@ import Modal from '../Modal/Modal';
     webformatURL: "",
   } 
 
-  searchSubmit = (search) => {
+   searchSubmit = (search) => {
         if (search !== this.state.search) {
-            this.setState({ images: [], page: 1, search }, () => {
+
+            this.setState({ cards: [], page: 1, search }, () => {
                 this.fetchSearch(search);
             });
         }
