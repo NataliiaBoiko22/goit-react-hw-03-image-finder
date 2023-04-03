@@ -1,21 +1,19 @@
-import React, { Component } from "react";
+import React from "react";
 import styles from './modal.module.css';
 import PropTypes from "prop-types";
 
 
-class Modal extends Component {
+function Modal(props){
 
-  render() { 
-    const {image} = this.props
+    const {image} = props
     return (
-      <div className={styles.overlay} onClick={this.props.onClose}>
+      <div className={styles.overlay} onClick={props.onClose}>
         <div className={styles.modal}>
           <img src={image} alt="" />
         </div>
       </div>
     );
   }
-}
 
 Modal.propTypes = {
     onClose: PropTypes.func,

@@ -19,12 +19,17 @@ import Modal from '../Modal/Modal';
     webformatURL: "",
   } 
 
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.search !== prevState.search || this.state.page !== prevState.page) {
+      this.fetchSearch(this.state.search, this.state.page);
+    }
+  }
+
    searchSubmit = (search) => {
         if (search !== this.state.search) {
 
-            this.setState({ cards: [], page: 1, search }, () => {
-                this.fetchSearch(search);
-            });
+            this.setState({ cards: [], page: 1, search });
         }
   };
   
@@ -38,16 +43,27 @@ import Modal from '../Modal/Modal';
     } catch (err) {
       this.setState({ error: err });
     } finally {
-      setTimeout(() => this.setState({ isLoading: false }) , 200);
+      this.setState({ isLoading: false });
     }
   }
 
   clickButton = () => {
-    this.setState({ page: this.state.page + 1 }, () => {
-      this.fetchSearch(this.state.search);
-    });
+    this.setState({ page: this.state.page + 1 });
   }
 
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown);
+  }
+
+  handleKeyDown = (event) => {
+    if (event.code === "Escape") {
+      this.setState({ showModal: false, largeImageURL: "" });
+    }
+  }
   modalShow = (url) => {
     this.setState({ showModal: true, largeImageURL: url });
   }
@@ -61,7 +77,7 @@ import Modal from '../Modal/Modal';
     return (
       <div className={styles.App}>
         <Searchbar onSubmit={this.searchSubmit} />
-        <ImageGallery cards={cards} onShow={this.modalShow} />
+        {cards.length > 0 && <ImageGallery cards={cards} onShow={this.modalShow} />}
         {isLoading && <Loader />}
         {cards.length > 0 && !isLoading ? (
           <Button onClick={this.clickButton} />) : ("")}
