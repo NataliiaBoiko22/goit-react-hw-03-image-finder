@@ -50,20 +50,6 @@ import Modal from '../Modal/Modal';
   clickButton = () => {
     this.setState({ page: this.state.page + 1 });
   }
-
-  componentDidMount() {
-    document.addEventListener("keydown", this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown);
-  }
-
-  handleKeyDown = (event) => {
-    if (event.code === "Escape") {
-      this.setState({ showModal: false, largeImageURL: "" });
-    }
-  }
   modalShow = (url) => {
     this.setState({ showModal: true, largeImageURL: url });
   }
