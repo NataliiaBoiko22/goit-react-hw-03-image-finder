@@ -1,24 +1,31 @@
-import React,{ useEffect } from "react";
+import React from "react";
 import styles from './modal.module.css';
 import PropTypes from "prop-types";
 
 
-function Modal(props){
+class Modal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+  }
 
-    const {image, onClose} = props; 
-    
-    useEffect(() => {
-      document.addEventListener("keydown", handleKeyDown);
-      return () => {
-          document.removeEventListener("keydown", handleKeyDown);
-      };
-  });
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyDown);
+  }
 
-  const handleKeyDown = (event) => {
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown);
+  }
+
+
+ handleKeyDown = (event) => {
       if (event.code === "Escape") {
-          onClose();
+        this.props.onClose();
       }
   };
+  
+  render() {
+    const { image, onClose } = this.props;
     return (
       <div className={styles.overlay} onClick={onClose}>
         <div className={styles.modal}>
@@ -27,7 +34,7 @@ function Modal(props){
       </div>
     );
   }
-
+};
 Modal.propTypes = {
     onClose: PropTypes.func.isRequired,
     image: PropTypes.string.isRequired,
