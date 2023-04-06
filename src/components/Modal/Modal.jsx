@@ -4,11 +4,7 @@ import PropTypes from "prop-types";
 
 
 class Modal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-  }
-
+ 
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyDown);
   }
